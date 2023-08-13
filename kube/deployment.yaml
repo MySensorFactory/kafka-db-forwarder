@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-db-forwarder-deployment
+  labels:
+    app: kafka-db-forwarder
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kafka-db-forwarder
+  template:
+    metadata:
+      labels:
+        app: kafka-db-forwarder
+    spec:
+      containers:
+        - name: kafka-db-forwarder
+          imagePullPolicy: Always
+          image: juliantheking/kafka-db-forwarder
+          ports:
+            - containerPort: 8080

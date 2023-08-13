@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-db-forwarder-service
+spec:
+  selector:
+    app: kafka-db-forwarder-deployment
+  ports:
+    - protocol: TCP
+      port: 30002
+      targetPort: 30002
