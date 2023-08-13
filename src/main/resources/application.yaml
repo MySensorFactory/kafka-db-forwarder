@@ -1,0 +1,22 @@
+kafka:
+  listenerId: simpleListener
+  resultTopic: results
+spring:
+  kafka:
+    bootstrap-servers: localhost:29092
+    producer:
+      bootstrap-servers: localhost:29092
+    consumer:
+      value-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+  datasource:
+    url: jdbc:postgresql://localhost:5432/compose-postgres
+    username: compose-postgres
+    password: compose-postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+server:
+  port: 9098
