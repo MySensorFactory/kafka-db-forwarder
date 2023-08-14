@@ -24,7 +24,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
@@ -35,6 +34,18 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.factory</groupId>
+            <artifactId>api-store</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.factory</groupId>
+            <artifactId>entity-store</artifactId>
         </dependency>
     </dependencies>
 
