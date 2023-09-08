@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories
-public class KafkaDbForwarder {
+public class KafkaDatabaseForwarder {
 
     public static void main(String[] args) {
-        SpringApplication.run(KafkaDbForwarder.class, args);
+        SpringApplication.run(KafkaDatabaseForwarder.class, args);
     }
 
 }

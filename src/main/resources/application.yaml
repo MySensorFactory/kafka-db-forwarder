@@ -1,13 +1,53 @@
 kafka:
   listenerId: simpleListener
-  resultTopic: results
+  config:
+    pressure:
+      enabled: true
+      inputTopics: AfterReturnCompressorPressureMean,BeforeBeginCompressorPressureMean,AfterBeginCompressorPressureMean,BeforeReturnCompressorPressureMean
+      listenerId: pressureMeanListener
+      groupId: pressureMeanGroup
+    temperature:
+      enabled: true
+      inputTopics: BeginTemperatureMean,ReturnTemperatureMean,BeforeBoilerTemperatureMean,AfterBoilerTemperatureMean
+      listenerId: temperatureMeanListener
+      groupId: temperatureMeanGroup
+    flowRate:
+      enabled: true
+      inputTopics: CompressedReturnFlowRateMean,InputFlowRateMean,NotCompressedReturnFlowRateMean,OutputFlowRateMean
+      listenerId: flowRateMeanListener
+      groupId: flowRateMeanGroup
+    gasComposition:
+      enabled: true
+      inputTopics: InputGasCompositionMean,BeginGasCompositionMean,OutputGasCompositionMean,ReturnGasCompositionMean
+      listenerId: gasCompositionMeanListener
+      groupId: gasCompositionMeanGroup
+    compressorState:
+      enabled: true
+      inputTopics: BeginCompressorNoiseAndVibrationMean,ReturnCompressorNoiseAndVibrationMean
+      listenerId: compressorStateListener
+      groupId: compressorStateGroup
 spring:
   kafka:
     bootstrap-servers: localhost:29092
     producer:
       bootstrap-servers: localhost:29092
     consumer:
-      value-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      bootstrap-servers: localhost:29092
+      auto-offset-reset: latest
+    properties:
+      schema:
+        registry:
+          url: http://localhost:8081
+      specific:
+        avro:
+          reader: true
+      value:
+        subject:
+          name:
+            strategy: io.confluent.kafka.serializers.subject.RecordNameStrategy
+    listener:
+      missing-topics-fatal: true
   datasource:
     url: jdbc:postgresql://localhost:5432/compose-postgres
     username: compose-postgres
