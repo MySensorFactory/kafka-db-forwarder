@@ -35,6 +35,8 @@ spring:
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       bootstrap-servers: localhost:29092
       auto-offset-reset: latest
+      isolation-level: read_committed
+      group-id: dbForwarderGroup
     properties:
       schema:
         registry:
