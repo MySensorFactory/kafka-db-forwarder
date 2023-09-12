@@ -1,5 +1,6 @@
 package com.factory.config.kafka;
 
+import com.factory.config.kafka.buffer.MessageBuffer;
 import com.factory.message.FlowRate;
 import com.factory.message.GasComposition;
 import com.factory.message.NoiseAndVibration;
@@ -20,6 +21,8 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 
+import java.util.Collection;
+
 @Configuration
 @EnableKafka
 @Slf4j
@@ -32,6 +35,13 @@ public class FactoryKafkaConfiguration {
     private final GasCompositionMeanService gasCompositionMeanService;
     private final CompressorStateService compressorStateService;
 
+    private final MessageBuffer<Pressure> pressureMessageBuffer;
+    private final MessageBuffer<Temperature> temperatureMessageBuffer;
+    private final MessageBuffer<FlowRate> flowRateMessageBuffer;
+    private final MessageBuffer<GasComposition> gasCompositionMessageBuffer;
+    private final MessageBuffer<NoiseAndVibration> noiseAndVibrationMessageBuffer;
+
+
     @ConditionalOnProperty(
             value = "kafka.config.pressure.enabled",
             havingValue = "true")
@@ -40,9 +50,13 @@ public class FactoryKafkaConfiguration {
             autoStartup = "${kafka.config.pressure.auto-start:true}",
             concurrency = "${kafka.config.pressure.concurrency:3}",
             groupId = "${kafka.config.pressure.groupId}")
-    public void listen(@Payload final Pressure data, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key) {
-        debug(data);
-        pressureMeanService.saveMean(data, key);
+    public void listen(@Payload final Pressure message, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key) {
+        pressureMessageBuffer.addMessage(key, message);
+        if (pressureMessageBuffer.isFull()) {
+            var batch = pressureMessageBuffer.extractBatch();
+            debug(batch);
+            pressureMeanService.saveMean(batch);
+        }
     }
 
 
@@ -54,9 +68,13 @@ public class FactoryKafkaConfiguration {
             autoStartup = "${kafka.config.temperature.auto-start:true}",
             concurrency = "${kafka.config.temperature.concurrency:3}",
             groupId = "${kafka.config.temperature.groupId}")
-    public void listen(@Payload final Temperature data, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key) {
-        debug(data);
-        temperatureMeanService.saveMean(data, key);
+    public void listen(@Payload final Temperature message, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key) {
+        temperatureMessageBuffer.addMessage(key, message);
+        if (temperatureMessageBuffer.isFull()) {
+            var batch = temperatureMessageBuffer.extractBatch();
+            debug(batch);
+            temperatureMeanService.saveMean(batch);
+        }
     }
 
     @ConditionalOnProperty(
@@ -67,9 +85,13 @@ public class FactoryKafkaConfiguration {
             autoStartup = "${kafka.config.flowRate.auto-start:true}",
             concurrency = "${kafka.config.flowRate.concurrency:3}",
             groupId = "${kafka.config.flowRate.groupId}")
-    public void listen(@Payload final FlowRate data, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key) {
-        debug(data);
-        flowRateMeanService.saveMean(data, key);
+    public void listen(@Payload final FlowRate message, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key) {
+        flowRateMessageBuffer.addMessage(key, message);
+        if (flowRateMessageBuffer.isFull()) {
+            var batch = flowRateMessageBuffer.extractBatch();
+            debug(batch);
+            flowRateMeanService.saveMean(batch);
+        }
     }
 
     @ConditionalOnProperty(
@@ -80,9 +102,13 @@ public class FactoryKafkaConfiguration {
             autoStartup = "${kafka.config.gasComposition.auto-start:true}",
             concurrency = "${kafka.config.gasComposition.concurrency:3}",
             groupId = "${kafka.config.gasComposition.groupId}")
-    public void listen(@Payload final GasComposition data, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key) {
-        debug(data);
-        gasCompositionMeanService.saveMean(data, key);
+    public void listen(@Payload final GasComposition message, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key) {
+        gasCompositionMessageBuffer.addMessage(key, message);
+        if (gasCompositionMessageBuffer.isFull()) {
+            var batch = gasCompositionMessageBuffer.extractBatch();
+            debug(batch);
+            gasCompositionMeanService.saveMean(batch);
+        }
     }
 
     @ConditionalOnProperty(
@@ -93,12 +119,16 @@ public class FactoryKafkaConfiguration {
             autoStartup = "${kafka.config.compressorState.auto-start:true}",
             concurrency = "${kafka.config.compressorState.concurrency:3}",
             groupId = "${kafka.config.compressorState.groupId}")
-    public void listen(@Payload final NoiseAndVibration data, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key) {
-        debug(data);
-        compressorStateService.saveCompressorState(data, key);
+    public void listen(@Payload final NoiseAndVibration message, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key) {
+        noiseAndVibrationMessageBuffer.addMessage(key, message);
+        if (noiseAndVibrationMessageBuffer.isFull()) {
+            var batch = noiseAndVibrationMessageBuffer.extractBatch();
+            debug(batch);
+            compressorStateService.saveCompressorState(batch);
+        }
     }
 
-    private <T> void debug(final T data) {
+    private <T> void debug(final Collection<T> data) {
         log.debug("Saving result: {}", data);
     }
 }

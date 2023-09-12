@@ -3,26 +3,31 @@ kafka:
   config:
     pressure:
       enabled: true
+      bufferSize: 10
       inputTopics: AfterReturnCompressorPressureMean,BeforeBeginCompressorPressureMean,AfterBeginCompressorPressureMean,BeforeReturnCompressorPressureMean
       listenerId: pressureMeanListener
       groupId: pressureMeanGroup
     temperature:
       enabled: true
+      bufferSize: 10
       inputTopics: BeginTemperatureMean,ReturnTemperatureMean,BeforeBoilerTemperatureMean,AfterBoilerTemperatureMean
       listenerId: temperatureMeanListener
       groupId: temperatureMeanGroup
     flowRate:
       enabled: true
+      bufferSize: 10
       inputTopics: CompressedReturnFlowRateMean,InputFlowRateMean,NotCompressedReturnFlowRateMean,OutputFlowRateMean
       listenerId: flowRateMeanListener
       groupId: flowRateMeanGroup
     gasComposition:
       enabled: true
+      bufferSize: 10
       inputTopics: InputGasCompositionMean,BeginGasCompositionMean,OutputGasCompositionMean,ReturnGasCompositionMean
       listenerId: gasCompositionMeanListener
       groupId: gasCompositionMeanGroup
     compressorState:
       enabled: true
+      bufferSize: 10
       inputTopics: BeginCompressorNoiseAndVibrationMean,ReturnCompressorNoiseAndVibrationMean
       listenerId: compressorStateListener
       groupId: compressorStateGroup
@@ -37,6 +42,8 @@ spring:
       auto-offset-reset: latest
       isolation-level: read_committed
       group-id: dbForwarderGroup
+    listener:
+      missing-topics-fatal: true
     properties:
       schema:
         registry:
@@ -48,8 +55,6 @@ spring:
         subject:
           name:
             strategy: io.confluent.kafka.serializers.subject.RecordNameStrategy
-    listener:
-      missing-topics-fatal: true
   datasource:
     url: jdbc:postgresql://localhost:5432/compose-postgres
     username: compose-postgres
@@ -57,8 +62,14 @@ spring:
   jpa:
     properties:
       hibernate:
+        order_inserts: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: 10
+        format_sql: true
+        generate_statistics: true
     hibernate:
       ddl-auto: none
+    show-sql: true
 server:
   port: 9098
