@@ -2,8 +2,8 @@ package com.factory.service;
 
 import com.factory.config.kafka.buffer.BufferedEntry;
 import com.factory.message.Temperature;
-import com.factory.persistence.entity.MeanTemperature;
-import com.factory.persistence.repository.MeanTemperatureRepository;
+import com.factory.persistence.data.entity.MeanTemperature;
+import com.factory.persistence.data.repository.MeanTemperatureRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

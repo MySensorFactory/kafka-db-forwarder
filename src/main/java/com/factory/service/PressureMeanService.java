@@ -2,8 +2,8 @@ package com.factory.service;
 
 import com.factory.config.kafka.buffer.BufferedEntry;
 import com.factory.message.Pressure;
-import com.factory.persistence.entity.MeanPressure;
-import com.factory.persistence.repository.MeanPressureRepository;
+import com.factory.persistence.data.entity.MeanPressure;
+import com.factory.persistence.data.repository.MeanPressureRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

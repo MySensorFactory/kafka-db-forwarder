@@ -2,8 +2,8 @@ package com.factory.service;
 
 import com.factory.config.kafka.buffer.BufferedEntry;
 import com.factory.message.NoiseAndVibration;
-import com.factory.persistence.entity.CompressorState;
-import com.factory.persistence.repository.CompressorStateRepository;
+import com.factory.persistence.data.entity.CompressorState;
+import com.factory.persistence.data.repository.CompressorStateRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

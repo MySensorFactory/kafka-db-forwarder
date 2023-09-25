@@ -2,8 +2,8 @@ package com.factory.service;
 
 import com.factory.config.kafka.buffer.BufferedEntry;
 import com.factory.message.GasComposition;
-import com.factory.persistence.entity.MeanGasComposition;
-import com.factory.persistence.repository.MeanGasCompositionRepository;
+import com.factory.persistence.data.entity.MeanGasComposition;
+import com.factory.persistence.data.repository.MeanGasCompositionRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
