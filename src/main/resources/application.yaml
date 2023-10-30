@@ -33,12 +33,12 @@ kafka:
       groupId: compressorStateGroup
 spring:
   kafka:
-    bootstrap-servers: localhost:29092
+    bootstrap-servers: kafka-cluster:9092
     producer:
-      bootstrap-servers: localhost:29092
+      bootstrap-servers: kafka-cluster:9092
     consumer:
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-      bootstrap-servers: localhost:29092
+      bootstrap-servers: kafka-cluster:9092
       auto-offset-reset: latest
       isolation-level: read_committed
       group-id: dbForwarderGroup
@@ -47,7 +47,7 @@ spring:
     properties:
       schema:
         registry:
-          url: http://localhost:8081
+          url: http://schema-registry-svc:8081
       specific:
         avro:
           reader: true
@@ -56,7 +56,7 @@ spring:
           name:
             strategy: io.confluent.kafka.serializers.subject.RecordNameStrategy
   datasource:
-    url: jdbc:postgresql://localhost:5432/compose-postgres
+    url: jdbc:postgresql://database-svc:5432/compose-postgres
     username: compose-postgres
     password: compose-postgres
   jpa:
@@ -72,4 +72,4 @@ spring:
       ddl-auto: none
     show-sql: true
 server:
-  port: 9098
+  port: 8080

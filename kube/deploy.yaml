@@ -2,10 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka-db-forwarder-deployment
+  namespace: factory
   labels:
     app: kafka-db-forwarder
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: kafka-db-forwarder
