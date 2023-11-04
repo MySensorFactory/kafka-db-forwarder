@@ -3,10 +3,8 @@ version: 0.2
 env:
     variables:
         PROJECT_NAME: kafka-db-forwarder
-        DOCKER_BUILD: yes
         BUILD_TYPE: default
         S3_DEPLOY_CONFIG_DIR: applications/kafka-db-forwarder/
-        BUCKET_NAME: factory-ci-cd
         S3_CICD_FUNCTIONS_DESTINATION: applications/cicd
 
 phases: 
