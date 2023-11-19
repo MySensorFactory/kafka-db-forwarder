@@ -13,21 +13,28 @@ The application.yaml file contains configuration properties for a Kafka listener
 
 #### Sensors Configuration
 
-* Property: kafka.config.<sensor-type>.enabled
+* Property: kafka.config.{sensor-type}.enabled
 * Description: Indicates whether the sensor-related Kafka listener is enabled.
 
 #### Buffer Size
-* Property: kafka.config.<sensor-type>.bufferSize
+* Property: kafka.config.{sensor-type}.bufferSize
 * Description: The size of the buffer for storing sensor-related data.
 
 #### Topics
-* Property: kafka.config.<sensor-type>.inputTopics
+* Property: kafka.config.{sensor-type}.inputTopics
 * Description: Comma-separated list of input topics related to sensor.
 
 #### Listener Identifier
-* Property: kafka.config.<sensor-type>.listenerId
+* Property: kafka.config.{sensor-type}.listenerId
 * Description: Identifier for the sensor mean listener.
 
 #### Group Identifier
-* Property: kafka.config.<sensor-type>.groupId
+* Property: kafka.config.{sensor-type}.groupId
 * Description: Identifier for the Kafka group related to sensor mean.
+
+#### Available {sensor-type} values:
+* pressure
+* temperature
+* flowRate
+* gasComposition
+* compressorState
