@@ -1,5 +1,4 @@
 kafka:
-  listenerId: simpleListener
   config:
     pressure:
       enabled: true
