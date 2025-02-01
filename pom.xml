@@ -9,6 +9,10 @@
         <relativePath/>
     </parent>
 
+    <artifactId>kafka-db-forwarder</artifactId>
+    <name>kafka-db-forwarder</name>
+    <version>1.0.0</version>
+
     <packaging>jar</packaging>
 
     <dependencies>
@@ -49,10 +53,44 @@
         <dependency>
             <groupId>com.factory</groupId>
             <artifactId>entity-store</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.6.3</version>
         </dependency>
     </dependencies>
 
-    <artifactId>kafka-db-forwarder</artifactId>
-    <name>kafka-db-forwarder</name>
-    <version>1.0.0</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source> <!-- or your Java version -->
+                    <target>${java.version}</target> <!-- or your Java version -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.36</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.6.3</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                        <!-- other annotation processors -->
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
